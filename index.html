@@ -1,0 +1,966 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lecture 11 · Localization: Arabic &amp; English</title>
+  <meta name="description" content="Mobile App Development with Flutter, Lecture 11: Make the login and home pages speak Arabic and English with easy_localization, switch the language with one button, and build layouts that flip correctly for right-to-left.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="flutter-logo" viewBox="0 0 166 210">
+    <path fill="#44D1FD" d="M10 101 100 11h56L38 129z"/>
+    <path fill="#1FBCFD" d="M51 150 100 102h56l-77 76z"/>
+    <path fill="#08589C" d="M79 178 107 150l49 49h-56z"/>
+  </symbol>
+  <symbol id="i-git" viewBox="0 0 24 24"><circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M6 3v12"/><path d="M18 9a9 9 0 0 1-9 9"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-windows" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 24 24"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9"/><path d="M2 19.5 4 16h16l2 3.5a1 1 0 0 1-.9 1.5H2.9a1 1 0 0 1-.9-1.5z"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 24 24"><path d="M22 12H2"/><path d="M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1z"/><path d="M6 16h.01M10 16h.01"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M5 12.6a11 11 0 0 1 14 0"/><path d="M1.4 9a16 16 0 0 1 21.2 0"/><path d="M8.5 16.1a6 6 0 0 1 7 0"/><path d="M12 20h.01"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.7 18-8-14a2 2 0 0 0-3.5 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6M10 22h4"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9l-.8-1.2A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.1 8.3 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 8.9 8.3 12 2"/></symbol>
+  <symbol id="i-package" viewBox="0 0 24 24"><path d="m7.5 4.3 9 5.1"/><path d="M21 8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.7z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><path d="M12 19h8"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+  <symbol id="i-mouse" viewBox="0 0 24 24"><path d="m4 4 7 17 2.5-7.5L21 11z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-chrome" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M21.2 8H12M3.9 6.1 8.5 14M10.9 21.9l4.6-7.9"/></symbol>
+  <symbol id="i-cable" viewBox="0 0 24 24"><path d="M17 21v-2a1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1v2"/><path d="M19 15V6.5a3.5 3.5 0 0 0-7 0v11a3.5 3.5 0 0 1-7 0V9"/><path d="M3 9V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4z"/></symbol>
+  <symbol id="i-apple" viewBox="0 0 24 24"><path d="M12 7c-1.5-1.3-4.5-1.6-6 .5-1.6 2.3-1 6.6 1.3 9.9 1 1.4 2 2.6 3.2 2.5.9 0 1.2-.6 1.5-.6s.6.6 1.5.6c1.2.1 2.2-1.1 3.2-2.5 2.3-3.3 2.9-7.6 1.3-9.9-1.5-2.1-4.5-1.8-6-.5z"/><path d="M12 7c0-2 1-3.5 3-4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 22a10 10 0 1 1 10-10c0 2.8-2.2 4-4 4h-2a2 2 0 0 0-1.5 3.3c.5.6.3 1.7-.5 2.2-.6.3-1.3.5-2 .5z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16.5" cy="10.5" r="1"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+  <symbol id="i-languages" viewBox="0 0 24 24"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-call" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-4 0"/><path d="M14 10V4a2 2 0 0 0-4 0v2"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.3l-3.6-3.6a2 2 0 0 1 2.8-2.8L7 15"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.8 9.8 0 0 1 6.7 2.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.8 9.8 0 0 1-6.7-2.7L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+</svg>
+
+<div class="progress" aria-hidden="true"><span></span></div>
+
+<main class="deck">
+
+<!-- 01 · Title -->
+<section class="slide">
+  <div class="canvas"><div class="frame frame--title">
+    <div class="stagger">
+      <p class="kicker">Lecture 11 · Mobile App Development</p>
+      <h1 class="hero">Localization:<br><span class="grad-text">Arabic &amp; English</span></h1>
+      <p class="lead lead--hero">One app, two languages, and a layout that flips for Arabic.</p>
+      <div class="chips">
+        <span class="chip"><span class="avatar">MI</span>Eng. Monther Ibrahim</span>
+        <span class="chip"><span class="avatar">M</span>Muhammad, M.Sc.</span>
+        <span class="chip">Fall 2026</span>
+      </div>
+      <p class="keys"><kbd>→</kbd> next &nbsp;·&nbsp; <kbd>F</kbd> fullscreen &nbsp;·&nbsp; <kbd>N</kbd> notes &nbsp;·&nbsp; <kbd>T</kbd> theme</p>
+    </div>
+    <div class="title-right" aria-hidden="true" style="display:grid; place-items:center;">
+      <div class="logo-glow" style="left:12%; top:10%;"></div>
+      <div class="phones" style="position:relative; gap:2cqw;">
+        <div class="ph-col"><span class="badge">English · LTR</span>
+          <div class="ph" style="--pw:14cqw;">
+            <div class="ph__scr"><div class="ph__island"></div>
+              <div class="col" style="gap:.65em; padding-top:2.3em;">
+                <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;"><svg class="ico"><use href="#i-globe"/></svg><span lang="ar">العربية</span></div>
+                <div style="display:grid; place-items:center;"><svg class="logo" style="width:2.6em; height:3.3em;"><use href="#flutter-logo"/></svg></div>
+                <div class="m-title" style="text-align:center;">Welcome back</div>
+                <div class="m-sub" style="text-align:center;">Log in to continue</div>
+                <div class="m-field" style="margin-top:.4em;"><svg class="ico"><use href="#i-mail"/></svg>Email</div>
+                <div class="m-field"><svg class="ico"><use href="#i-lock"/></svg>Password</div>
+                <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;">Forgot password?</div>
+                <div class="m-btn m-btn--fill is-wide">Login</div>
+                <div class="rowx" style="justify-content:center; font-size:.82em; gap:.25em;"><span>Don't have an account?</span><b style="color:#6750A4;">Sign up</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ph-col"><span class="badge badge--ok">Arabic · RTL</span>
+          <div class="ph" style="--pw:14cqw;">
+            <div class="ph__scr" dir="rtl" lang="ar"><div class="ph__island"></div>
+              <div class="col" style="gap:.65em; padding-top:2.3em;">
+                <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;"><svg class="ico"><use href="#i-globe"/></svg><span lang="en">English</span></div>
+                <div style="display:grid; place-items:center;"><svg class="logo" style="width:2.6em; height:3.3em;"><use href="#flutter-logo"/></svg></div>
+                <div class="m-title" style="text-align:center;">مرحباً بعودتك</div>
+                <div class="m-sub" style="text-align:center;">سجّل الدخول للمتابعة</div>
+                <div class="m-field" style="margin-top:.4em;"><svg class="ico"><use href="#i-mail"/></svg>البريد الإلكتروني</div>
+                <div class="m-field"><svg class="ico"><use href="#i-lock"/></svg>كلمة المرور</div>
+                <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;">نسيت كلمة المرور؟</div>
+                <div class="m-btn m-btn--fill is-wide">تسجيل الدخول</div>
+                <div class="rowx" style="justify-content:center; font-size:.82em; gap:.25em;"><span>ليس لديك حساب؟</span><b style="color:#6750A4;">أنشئ حساباً</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+  <aside class="notes"><p>Ask: “Which of these two would your family use?” Today the same code produces both screens.</p></aside>
+</section>
+
+<!-- 02 · Learning objectives -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Today</p>
+      <h2 class="title">Learning objectives</h2>
+      <p class="lead">We start from the Lecture 9 app (Login → Home). By the end of class it speaks <b>both languages</b>.</p>
+    </header>
+    <div class="body" style="grid-template-rows: 1fr auto;">
+      <div class="journey stagger">
+        <div class="stop" style="align-content:start;"><div class="stop__dot"><svg class="ico"><use href="#i-bulb"/></svg><span class="stop__n">1</span></div><h3>Explain</h3><p>localization, locale and RTL</p></div>
+        <div class="stop" style="align-content:start;"><div class="stop__dot"><svg class="ico"><use href="#i-package"/></svg><span class="stop__n">2</span></div><h3>Set up</h3><p><code>easy_localization</code> with <code>en.json</code> and <code>ar.json</code></p></div>
+        <div class="stop" style="align-content:start;"><div class="stop__dot"><svg class="ico"><use href="#i-languages"/></svg><span class="stop__n">3</span></div><h3>Show</h3><p>translations with <code>context.tr()</code>, values and plurals</p></div>
+        <div class="stop" style="align-content:start;"><div class="stop__dot"><svg class="ico"><use href="#i-globe"/></svg><span class="stop__n">4</span></div><h3>Switch</h3><p>the language with one button</p></div>
+        <div class="stop" style="align-content:start;"><div class="stop__dot"><svg class="ico"><use href="#i-swap"/></svg><span class="stop__n">5</span></div><h3>Flip</h3><p>Arabic layouts correctly: <span style="white-space:nowrap;">start / end</span> instead of <span style="white-space:nowrap;">left / right</span></p></div>
+      </div>
+      <div class="callout callout--ok goal"><svg class="ico"><use href="#i-target"/></svg><div><b>Goal:</b> the Lecture 9 login and home pages in English <b>and</b> Arabic, one button to switch, and a layout that mirrors correctly.</div></div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>We start from the Lecture 9 app (Login → Home). By the end of class it speaks both languages.</p></aside>
+</section>
+
+<!-- 03 · What is localization -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">The idea</p>
+      <h2 class="title">What is localization, and why?</h2>
+    </header>
+    <div class="body" style="grid-template-columns: 1.15fr .85fr; gap: 2.6cqw; align-items:center;">
+      <div class="explain stagger">
+        <div class="defs" style="gap:1.2cqw;">
+          <div class="def" style="font-size:1.42cqw;"><code>Localization</code><span>Making the app fit a <b>language</b> and a <b>region</b>: words, text direction, numbers, dates</span></div>
+          <div class="def" style="font-size:1.42cqw;"><code>Locale</code><span>A language code + an optional country code: <code>en</code>, <code>ar</code>, <code>ar_LY</code> (Arabic, Libya)</span></div>
+          <div class="def" style="font-size:1.42cqw;"><code>LTR / RTL</code><span>Left-to-right (English) and right-to-left (Arabic): in Arabic the <b>whole screen is mirrored</b></span></div>
+        </div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-users"/></svg><div><b>Why?</b> People trust and use apps in their own language. In Libya many users read Arabic first. One app reaches more people.</div></div>
+      </div>
+      <article class="card card--hl" style="display:grid; gap:1.5cqw; align-content:start; padding:1.8cqw 2cqw;">
+        <span class="badge" style="justify-self:start;">Reading direction</span>
+        <div style="display:grid; gap:.6cqw;">
+          <span class="badge badge--ok" style="justify-self:start;">LTR · English</span>
+          <div style="font:700 2.6cqw/1.3 var(--font-body);">Welcome back</div>
+          <div style="display:flex; align-items:center; gap:.3cqw; color:var(--sky);"><span style="flex:1; height:.24cqw; border-radius:99px; background:var(--grad);"></span><svg class="ico" style="font-size:2.2cqw; stroke-width:2.2;"><use href="#i-arrow-right"/></svg></div>
+        </div>
+        <div dir="rtl" lang="ar" style="display:grid; gap:.6cqw;">
+          <span class="badge badge--ok" dir="ltr" style="justify-self:start;">RTL · Arabic</span>
+          <div style="font:700 2.6cqw/1.3 var(--font-body); letter-spacing:0;">مرحباً بعودتك</div>
+          <div style="display:flex; align-items:center; gap:.3cqw; color:var(--sky);"><span style="flex:1; height:.24cqw; border-radius:99px; background:var(--grad);"></span><svg class="ico" style="font-size:2.2cqw; stroke-width:2.2;"><use href="#i-arrow-left"/></svg></div>
+        </div>
+        <p class="small">In Arabic the back arrow, the icons in fields and “Forgot password?” move to the <b>other side</b> too.</p>
+      </article>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Point out that localization is more than translating words: in Arabic the back arrow, the icons in fields and the “Forgot password?” link all move to the other side.</p></aside>
+</section>
+
+<!-- 04 · Two ways -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Options</p>
+      <h2 class="title">Two ways to localize a Flutter app</h2>
+    </header>
+    <div class="body" style="grid-template-rows: auto auto; align-content:start; gap:1.8cqw;">
+      <table class="tbl" style="font-size:1.38cqw; table-layout:fixed;">
+        <thead><tr><th style="width:22%;"></th><th style="text-transform:none; letter-spacing:0; font-size:1.2cqw; color:var(--text); width:42%;">Built-in: <code>flutter_localizations</code> + ARB files</th><th style="text-transform:none; letter-spacing:0; font-size:1.2cqw; color:var(--text); background:var(--sky-tint);">Package: <code>easy_localization</code></th></tr></thead>
+        <tbody>
+          <tr><td>Translation files</td><td><code>.arb</code> files (JSON-like), code is generated</td><td style="background:var(--sky-tint);">plain <code>.json</code> files</td></tr>
+          <tr><td>Show a text</td><td><code>AppLocalizations.of(context)!.loginTitle</code></td><td style="background:var(--sky-tint);"><code>context.tr('login.title')</code></td></tr>
+          <tr><td>Switch language while the app runs</td><td class="muted"><svg class="ico" style="vertical-align:-.15em; margin-right:.3cqw; color:var(--bad);"><use href="#i-x"/></svg>you build it yourself</td><td style="background:var(--sky-tint);"><code>context.setLocale(...)</code></td></tr>
+          <tr><td>Remember the user's choice</td><td class="muted"><svg class="ico" style="vertical-align:-.15em; margin-right:.3cqw; color:var(--bad);"><use href="#i-x"/></svg>you build it yourself</td><td style="background:var(--sky-tint);"><span class="same"><svg class="ico"><use href="#i-check"/></svg>automatic</span></td></tr>
+        </tbody>
+      </table>
+      <div class="stagger" style="display:grid; grid-template-columns:1fr 1fr; gap:1.6cqw;">
+        <div class="callout callout--info" style="font-size:1.25cqw;"><svg class="ico"><use href="#i-layers"/></svg><div>Both use Flutter's <code>flutter_localizations</code> underneath for Material texts and RTL.</div></div>
+        <div class="callout callout--ok" style="font-size:1.25cqw;"><svg class="ico"><use href="#i-check-circle"/></svg><div>In this course: <b><code>easy_localization</code></b></div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Keep this short. The built-in way is fine for big teams; for us the package saves a lot of setup and gives switching and saving for free.</p></aside>
+</section>
+
+<!-- 05 · easy_localization -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">The package</p>
+      <h2 class="title"><code>easy_localization</code>: what it does and how to install it</h2>
+    </header>
+    <div class="body" style="grid-template-columns: 1fr 1fr; gap: 2.4cqw; align-items:start;">
+      <article class="card card--hl">
+        <h3>What it does</h3>
+        <ul class="checklist stagger">
+          <li><span>Reads translations from <b>JSON files</b> in <code>assets/</code></span></li>
+          <li><span><code>context.tr('key')</code>, values inside text, plurals</span></li>
+          <li><span>Switches the language with <code>context.setLocale(...)</code> and <b>remembers</b> it</span></li>
+          <li><span>Brings <code>flutter_localizations</code> with it: no extra package to add</span></li>
+        </ul>
+      </article>
+      <div class="side stagger">
+        <div class="term"><div class="term__bar"><i></i><i></i><i></i><span>Terminal</span></div><pre><span class="t-p">$</span> flutter pub add easy_localization</pre></div>
+        <div class="term code code--lg">
+          <div class="term__bar"><i></i><i></i><i></i><span>pubspec.yaml</span><span class="grow"></span><span>the new line</span></div>
+<pre class="hl" data-lang="yaml" data-hl="2">dependencies:
+  easy_localization: ^3.0.8</pre>
+        </div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-bulb"/></svg><div><code>flutter pub add</code> picks the newest version that works with our Flutter and writes the line into <code>pubspec.yaml</code> for you.</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Run the command live in the VS Code terminal and show the new line in <code>pubspec.yaml</code>. <code>flutter pub add</code> picks the newest version that works with our Flutter.</p></aside>
+</section>
+
+<!-- 06 · Step 1 translation files -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Setup · Step 1</p>
+      <h2 class="title">The translation files</h2>
+    </header>
+    <div class="body" style="grid-template-columns: 26cqw 1fr 1fr; grid-template-rows: auto auto; gap: 1.6cqw; align-items:start; align-content:start;">
+      <div class="card tree">
+        <div class="row" style="grid-template-columns:13.5cqw 1fr;"><span><span class="d">assets/</span></span><span class="note">next to <code>lib/</code></span></div>
+        <div class="row" style="grid-template-columns:13.5cqw 1fr;"><span><span class="g">└─ </span><span class="d">translations/</span></span><span class="note"></span></div>
+        <div class="row is-star" style="grid-template-columns:13.5cqw 1fr;"><span><span class="g">   ├─ </span><span class="f">en.json</span></span><span class="note">English</span></div>
+        <div class="row is-star" style="grid-template-columns:13.5cqw 1fr;"><span><span class="g">   └─ </span><span class="f">ar.json</span></span><span class="note">Arabic</span></div>
+      </div>
+      <div class="term code code--lg">
+        <div class="term__bar"><i></i><i></i><i></i><span>assets/translations/en.json</span></div>
+<pre class="hl">{
+  "login": {
+    "title": "Welcome back",
+    "email": "Email"
+  }
+}</pre>
+      </div>
+      <div class="term code code--lg">
+        <div class="term__bar"><i></i><i></i><i></i><span>assets/translations/ar.json</span></div>
+<pre class="hl">{
+  "login": {
+    "title": "مرحباً بعودتك",
+    "email": "البريد الإلكتروني"
+  }
+}</pre>
+      </div>
+      <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div>Save the files as <b>UTF-8</b> (VS Code does this by default) so Arabic shows correctly.</div></div>
+      <div class="callout callout--info"><svg class="ico"><use href="#i-key"/></svg><div>Same <b>keys</b> (left side) in both files; only the <b>values</b> change.</div></div>
+      <div class="callout callout--ok"><svg class="ico"><use href="#i-file"/></svg><div>The file name is the language code: <code>en.json</code>, <code>ar.json</code></div></div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Create the folders in the project root (next to <code>lib/</code>, not inside it). A key is the name we use in code; the value is what the user sees. Save the files as UTF-8 (VS Code does this by default) so Arabic shows correctly.</p></aside>
+</section>
+
+<!-- 07 · Step 2 pubspec + Info.plist -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Setup · Step 2</p>
+      <h2 class="title">Tell Flutter and iOS about the files</h2>
+    </header>
+    <div class="body" style="grid-template-columns: 1fr 1fr; gap: 2.4cqw; align-items:start;">
+      <div class="side stagger">
+        <div class="term code code--lg">
+          <div class="term__bar"><i></i><i></i><i></i><span>pubspec.yaml</span></div>
+<pre class="hl" data-lang="yaml" data-hl="3-4">flutter:
+  uses-material-design: true
+  assets:
+    - assets/translations/</pre>
+        </div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-image"/></svg><div>Same as images in Lecture 6: list the folder, with the <b>/</b> at the end.</div></div>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div>Changed <code>pubspec.yaml</code>? <b>Stop</b> the app and run it again.</div></div>
+      </div>
+      <div class="side stagger">
+        <div class="term code code--lg">
+          <div class="term__bar"><i></i><i></i><i></i><span>ios/Runner/Info.plist</span><span class="grow"></span><span>inside &lt;dict&gt;</span></div>
+<pre class="hl">&lt;key&gt;CFBundleLocalizations&lt;/key&gt;
+&lt;array&gt;
+  &lt;string&gt;en&lt;/string&gt;
+  &lt;string&gt;ar&lt;/string&gt;
+&lt;/array&gt;</pre>
+        </div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-apple"/></svg><div>Tells iPhone which languages the app supports. Without it, iOS may say the phone is in English even when it is in Arabic.</div></div>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div><b>Android:</b> nothing to add.</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Same as images in Lecture 6: the folder must be listed, with the <code>/</code> at the end. The iOS list tells iPhone which languages the app supports; without it, iOS may tell the app the phone is in English even when it is in Arabic. After changing <code>pubspec.yaml</code>, stop the app and run it again.</p></aside>
+</section>
+
+<!-- 08 · Step 3 main() -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Setup · Step 3</p>
+      <h2 class="title"><code>main()</code>: start easy_localization</h2>
+    </header>
+    <div class="body walk" style="grid-template-columns: 1.2fr .8fr;">
+      <div class="term code code--lg">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/main.dart</span><span class="grow"></span><span>main()</span></div>
+<pre class="hl" data-hl="1-3,6-10">void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('ar')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
+      child: const MyApp(),
+    ),
+  );
+}</pre>
+      </div>
+      <div class="explain stagger">
+        <div class="defs">
+          <div class="def"><code>async / await</code><span>“Wait for this to finish before going on” (it reads the saved language)</span></div>
+          <div class="def"><code>supportedLocales</code><span>Our languages</span></div>
+          <div class="def"><code>path</code><span>Where the JSON files are</span></div>
+          <div class="def"><code>fallbackLocale</code><span>Used when the phone's language is not supported: a French phone gets English</span></div>
+        </div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-bulb"/></svg><div>Optional: <code>startLocale: const Locale('ar')</code> starts in Arabic the first time, until the user picks.</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p><code>WidgetsFlutterBinding.ensureInitialized()</code> must come first because easy_localization reads from the phone's storage before <code>runApp</code>. We meet <code>async</code> / <code>await</code> properly in Lecture 18 (APIs); today just read it as “wait”. Without <code>startLocale</code>, the first launch follows the phone's language: a phone set to Arabic (Libya) opens in Arabic.</p></aside>
+</section>
+
+<!-- 09 · Step 4 MaterialApp -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Setup · Step 4</p>
+      <h2 class="title">Three lines in <code>MaterialApp</code></h2>
+    </header>
+    <div class="body walk" style="grid-template-columns: 1.2fr .8fr;">
+      <div class="term code code--lg">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/main.dart</span><span class="grow"></span><span>MyApp · build()</span></div>
+<pre class="hl" data-hl="5-7">@override
+Widget build(BuildContext context) {
+  return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    localizationsDelegates: context.localizationDelegates,
+    supportedLocales: context.supportedLocales,
+    locale: context.locale,
+    home: const LoginPage(),
+  );
+}</pre>
+      </div>
+      <div class="explain stagger">
+        <div class="defs">
+          <div class="def"><code>localizationsDelegates</code><span>Loads our JSON <b>and</b> Flutter's own Arabic texts and RTL</span></div>
+          <div class="def"><code>supportedLocales</code><span>The list from <code>main()</code></span></div>
+          <div class="def"><code>locale</code><span>The language in use right now</span></div>
+        </div>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div><code>MaterialApp</code> is no longer <code>const</code>: these values are only known while the app runs.</div></div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-play"/></svg><div>Run it now: nothing looks different yet, because no text uses the JSON. That is the next step.</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Run the app now: nothing looks different yet, because no text uses the JSON. That is the next step. If you added themes in Lecture 10, keep your <code>theme</code>, <code>darkTheme</code> and <code>themeMode</code> lines; just add these three.</p></aside>
+</section>
+
+<!-- 10 · Keys and context.tr() -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Translate</p>
+      <h2 class="title">Keys and <code>context.tr()</code></h2>
+    </header>
+    <div class="body" style="grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 1.6cqw; align-content:start;">
+      <article class="card" style="display:grid; gap:.9cqw; align-content:start;">
+        <span class="badge" style="justify-self:start;">Flat key</span>
+        <div class="term code code--lg code--nonum">
+<pre class="hl">{ "login_title": "Welcome back" }</pre>
+        </div>
+        <p>→ <code>context.tr('login_title')</code></p>
+      </article>
+      <article class="card card--hl" style="display:grid; gap:.9cqw; align-content:start;">
+        <span class="badge badge--ok" style="justify-self:start;">Nested key · we use this</span>
+        <div class="term code code--lg code--nonum">
+<pre class="hl">{ "login": { "title": "Welcome back" } }</pre>
+        </div>
+        <p>→ <code>context.tr('login.title')</code> <span class="muted">· one group per page</span></p>
+      </article>
+      <div style="grid-column: 1 / -1; display:grid; grid-template-columns: 1.2fr .8fr; gap:1.6cqw; align-items:start;">
+        <div class="term code code--lg">
+          <div class="term__bar"><i></i><i></i><i></i><span>Showing a translation</span></div>
+<pre class="hl" data-groups="1:g3;2-3:g2">Text(context.tr('login.title'))  // use this inside build()
+'login.title'.tr()               // also works, see notes
+tr('login.title')                // also works, see notes</pre>
+        </div>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div>Only <code>context.tr()</code> rebuilds the text when the language changes. Use the short forms only <b>outside</b> <code>build()</code>, for example a SnackBar message in <code>onPressed</code>.</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p><code>context.tr()</code> tells Flutter “rebuild me when the language changes”. The short forms <code>'key'.tr()</code> and <code>tr('key')</code> do not: we tested it, and a page using <code>'login.title'.tr()</code> kept showing “Welcome back” after switching to Arabic. Use them only outside <code>build()</code>, for example in a SnackBar message inside <code>onPressed</code>.</p></aside>
+</section>
+
+<!-- 11 · namedArgs -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Translate</p>
+      <h2 class="title">Values inside a text: <code>namedArgs</code></h2>
+    </header>
+    <div class="body walk" style="grid-template-columns: 1.1fr .9fr;">
+      <div class="side">
+        <div class="term code">
+          <div class="term__bar"><i></i><i></i><i></i><span>en.json</span><span class="grow"></span><span>inside "home"</span></div>
+<pre class="hl">"logged_in_as": "You are logged in as {email}"</pre>
+        </div>
+        <div class="term code">
+          <div class="term__bar"><i></i><i></i><i></i><span>ar.json</span><span class="grow"></span><span>inside "home"</span></div>
+<pre class="hl">"logged_in_as": "أنت مسجّل الدخول باسم {email}"</pre>
+        </div>
+        <div class="term code">
+          <div class="term__bar"><i></i><i></i><i></i><span>lib/home_page.dart</span></div>
+<pre class="hl" data-hl="2">Text(
+  context.tr('home.logged_in_as', namedArgs: {'email': email}),
+  textAlign: TextAlign.center,
+),</pre>
+        </div>
+      </div>
+      <div class="explain stagger">
+        <div class="defs">
+          <div class="def"><code>{email}</code><span>A hole in the text; <code>namedArgs</code> fills it</span></div>
+        </div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-languages"/></svg><div>In Arabic the hole can be in a different place in the sentence: no problem.</div></div>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div>Values must be <code>String</code>s: for a number write <code>'$count'</code>.</div></div>
+        <div class="card" style="display:grid; gap:.8cqw; padding:1.2cqw 1.4cqw;">
+          <span class="badge" style="justify-self:start;">What the user sees</span>
+          <div style="display:grid; gap:.6cqw; padding:.9cqw 1.1cqw; border-radius:.7cqw; background:#FEF7FF; color:#1D1B20; font:400 1.25cqw/1.4 Roboto, 'Segoe UI', var(--font-body);">
+            <div>You are logged in as <span style="background:rgba(255,179,0,.28); border-radius:.25em; padding:0 .25em;">ahmed@email.com</span></div>
+            <div dir="rtl" lang="ar">أنت مسجّل الدخول باسم <span style="background:rgba(255,179,0,.28); border-radius:.25em; padding:0 .25em;">ahmed@email.com</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>This replaces Lecture 9's <code>'You are logged in as $email'</code>. We cannot use <code>$email</code> inside a JSON file, so the JSON has a named hole and the code fills it. There is also <code>args: [...]</code> for unnamed holes <code>{}</code>, filled left to right.</p></aside>
+</section>
+
+<!-- 12 · Plurals -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Translate</p>
+      <h2 class="title">Plurals: 0, 1, 2, many</h2>
+    </header>
+    <div class="body" style="grid-template-columns: 31cqw 1fr; gap: 2cqw; align-items:start;">
+      <div class="side">
+        <div class="term code">
+          <div class="term__bar"><i></i><i></i><i></i><span>en.json</span><span class="grow"></span><span>inside "home"</span></div>
+<pre class="hl">"messages": {
+  "zero": "You have no new messages",
+  "one": "You have one new message",
+  "other": "You have {} new messages"
+}</pre>
+        </div>
+        <div class="term code">
+          <div class="term__bar"><i></i><i></i><i></i><span>ar.json</span><span class="grow"></span><span>inside "home"</span></div>
+<pre class="hl" data-groups="4:g2">"messages": {
+  "zero": "ليس لديك رسائل جديدة",
+  "one": "لديك رسالة جديدة واحدة",
+  "two": "لديك رسالتان جديدتان",
+  "other": "عدد الرسائل الجديدة: {}"
+}</pre>
+        </div>
+      </div>
+      <div class="side stagger">
+        <div class="term code code--lg">
+          <div class="term__bar"><i></i><i></i><i></i><span>lib/home_page.dart</span></div>
+<pre class="hl">Text(context.plural('home.messages', newMessages))</pre>
+        </div>
+        <div class="say" style="font-size:1.3cqw; line-height:1.9;"><span class="path">0 → zero</span> <span class="path">1 → one</span> <span class="path">2 → two</span> <span class="path">everything else → other</span> <span class="muted">(<code>{}</code> becomes the number)</span></div>
+        <table class="tbl tbl--probs" style="font-size:1.2cqw;">
+          <thead><tr><th style="width:7%;">n</th><th>English</th><th style="text-align:right;">Arabic</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">0</th><td>You have no new messages <code>zero</code></td><td dir="rtl" lang="ar" style="text-align:right;">ليس لديك رسائل جديدة <code>zero</code></td></tr>
+            <tr><th scope="row">1</th><td>You have one new message <code>one</code></td><td dir="rtl" lang="ar" style="text-align:right;">لديك رسالة جديدة واحدة <code>one</code></td></tr>
+            <tr><th scope="row">2</th><td>You have 2 new messages <code>other</code></td><td dir="rtl" lang="ar" style="text-align:right;">لديك رسالتان جديدتان <code>two</code></td></tr>
+            <tr><th scope="row" style="border-bottom:0;">3</th><td>You have 3 new messages <code>other</code></td><td dir="rtl" lang="ar" style="text-align:right;">عدد الرسائل الجديدة: 3 <code>other</code></td></tr>
+          </tbody>
+        </table>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div><code>other</code> is required; a missing form falls back to <code>other</code>.</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Arabic has a dual form (رسالتان), so <code>ar.json</code> has <code>two</code>; English does not need it. Arabic also changes the noun after 10 (“11 رسالة”), so our Arabic <code>other</code> is written as “عدد الرسائل الجديدة: {}”, which is correct for 3, 11 and 100. (For full Arabic rules there is <code>ignorePluralRules: false</code> with <code>few</code> and <code>many</code>; not needed today.)</p></aside>
+</section>
+
+<!-- 13 · LanguageButton -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Switch</p>
+      <h2 class="title">Change the language: a <code>LanguageButton</code></h2>
+    </header>
+    <div class="body walk" style="grid-template-columns: 1.4fr .9fr;">
+      <div class="term code code--sm">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/widgets/language_button.dart</span></div>
+<pre class="hl" data-hl="6,10,13">class LanguageButton extends StatelessWidget {
+  const LanguageButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isArabic = context.locale.languageCode == 'ar';
+
+    return TextButton.icon(
+      onPressed: () {
+        context.setLocale(isArabic ? const Locale('en') : const Locale('ar'));
+      },
+      icon: const Icon(Icons.language),
+      label: Text(isArabic ? 'English' : 'العربية'),
+    );
+  }
+}</pre>
+      </div>
+      <div class="explain stagger">
+        <div class="defs">
+          <div class="def"><code>context.setLocale(...)</code><span>Changes the language and rebuilds the app: no <code>setState</code> needed</span></div>
+          <div class="def"><code>condition ? a : b</code><span>If the condition is true use <code>a</code>, else <code>b</code></span></div>
+        </div>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div>The choice is <b>saved on the phone</b> automatically: close the app, open it again, still Arabic.</div></div>
+        <div class="card" style="display:grid; gap:.9cqw; padding:1.2cqw 1.4cqw;">
+          <p class="small">The label shows the <b>other</b> language, in its own script:</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1cqw;">
+            <div style="display:grid; gap:.5cqw; justify-items:center;">
+              <span style="display:flex; padding:.4cqw .6cqw; border-radius:.6cqw; background:#FEF7FF; border:1px solid var(--brd);"><span class="mbtn mbtn--text" style="padding:0 .8cqw;"><svg class="ico"><use href="#i-globe"/></svg><span lang="ar">العربية</span></span></span>
+              <small class="muted" style="font-size:.95cqw;">in the English app</small>
+            </div>
+            <div style="display:grid; gap:.5cqw; justify-items:center;">
+              <span dir="rtl" style="display:flex; padding:.4cqw .6cqw; border-radius:.6cqw; background:#FEF7FF; border:1px solid var(--brd);"><span class="mbtn mbtn--text" style="padding:0 .8cqw;"><svg class="ico"><use href="#i-globe"/></svg><span lang="en">English</span></span></span>
+              <small class="muted" style="font-size:.95cqw;">in the Arabic app</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Our own custom widget again (Lecture 8), so we can put it on every page. The label shows the other language written in its own script (“العربية” / “English”), which is what most apps do. <code>condition ? a : b</code> means “if the condition is true use a, else b”.</p></aside>
+</section>
+
+<!-- 14 · Live: login page -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Live coding · 1 of 2</p>
+      <h2 class="title">Translate the login page</h2>
+    </header>
+    <div class="body" style="grid-template-columns: 1.12fr .78fr auto; gap: 2cqw; align-items:start;">
+      <div class="term code">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/login_page.dart</span><span class="grow"></span><span>the parts that change</span></div>
+<pre class="hl" data-groups="1-4:g2;8,11:g3;9:g1">const Align(
+  alignment: AlignmentDirectional.centerEnd,
+  child: LanguageButton(),
+),
+const SizedBox(height: 16),
+const FlutterLogo(size: 80),
+const SizedBox(height: 24),
+Text(
+  context.tr('login.title'),
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.bold,
+  ),
+),</pre>
+      </div>
+      <div class="legend-groups stagger">
+        <div class="lg" style="--c:#13B9FD;"><span class="n">1</span><b>Text → <code>context.tr()</code></b><span>Every <code>'text'</code> becomes <code>context.tr('key')</code></span></div>
+        <div class="lg" style="--c:#4ADE80;"><span class="n">2</span><b>Fewer <code>const</code></b><span>Remove it from widgets that now show a translation (<code>Text</code>, <code>AppTextField</code>), keep it on <code>TextStyle</code></span></div>
+        <div class="lg" style="--c:#FFC857;"><span class="n">3</span><b>The language button</b><span>Replaces the top <code style="white-space:nowrap;">SizedBox(height: 40)</code></span></div>
+      </div>
+      <div class="phones" style="gap:1.2cqw;">
+        <div class="ph-col"><span class="badge">English</span>
+          <div class="ph" style="--pw:11.5cqw;">
+            <div class="ph__scr"><div class="ph__island"></div>
+              <div class="col" style="gap:.65em; padding-top:2.3em;">
+                <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;"><svg class="ico"><use href="#i-globe"/></svg><span lang="ar">العربية</span></div>
+                <div style="display:grid; place-items:center;"><svg class="logo" style="width:2.6em; height:3.3em;"><use href="#flutter-logo"/></svg></div>
+                <div class="m-title" style="text-align:center;">Welcome back</div>
+                <div class="m-sub" style="text-align:center;">Log in to continue</div>
+                <div class="m-field" style="margin-top:.4em;"><svg class="ico"><use href="#i-mail"/></svg>Email</div>
+                <div class="m-field"><svg class="ico"><use href="#i-lock"/></svg>Password</div>
+                <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;">Forgot password?</div>
+                <div class="m-btn m-btn--fill is-wide">Login</div>
+                <div class="rowx" style="justify-content:center; font-size:.82em; gap:.25em;"><span>Don't have an account?</span><b style="color:#6750A4;">Sign up</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ph-col"><span class="badge badge--ok">Arabic</span>
+          <div class="ph" style="--pw:11.5cqw;">
+            <div class="ph__scr" dir="rtl" lang="ar"><div class="ph__island"></div>
+              <div class="col" style="gap:.65em; padding-top:2.3em;">
+                <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;"><svg class="ico"><use href="#i-globe"/></svg><span lang="en">English</span></div>
+                <div style="display:grid; place-items:center;"><svg class="logo" style="width:2.6em; height:3.3em;"><use href="#flutter-logo"/></svg></div>
+                <div class="m-title" style="text-align:center;">مرحباً بعودتك</div>
+                <div class="m-sub" style="text-align:center;">سجّل الدخول للمتابعة</div>
+                <div class="m-field" style="margin-top:.4em;"><svg class="ico"><use href="#i-mail"/></svg>البريد الإلكتروني</div>
+                <div class="m-field"><svg class="ico"><use href="#i-lock"/></svg>كلمة المرور</div>
+                <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;">نسيت كلمة المرور؟</div>
+                <div class="m-btn m-btn--fill is-wide">تسجيل الدخول</div>
+                <div class="rowx" style="justify-content:center; font-size:.82em; gap:.25em;"><span>ليس لديك حساب؟</span><b style="color:#6750A4;">أنشئ حساباً</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Do the fields together: <code>AppTextField(label: context.tr('login.email'), icon: Icons.email, onChanged: ...)</code>. <code>const</code> means “known before the app runs”; a translation is only known while it runs, so the analyzer asks us to remove it. Tap “العربية”: everything flips.</p></aside>
+</section>
+
+<!-- 15 · Live: home page -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Live coding · 2 of 2</p>
+      <h2 class="title">Translate the home page</h2>
+    </header>
+    <div class="body" style="grid-template-columns: 1fr auto; gap: 2.4cqw; align-items:start;">
+      <div class="side">
+        <div class="term code code--sm">
+          <div class="term__bar"><i></i><i></i><i></i><span>lib/home_page.dart</span><span class="grow"></span><span>the parts that change</span></div>
+<pre class="hl" data-hl="2-3,7,12">appBar: AppBar(
+  title: Text(context.tr('home.title')),
+  actions: const [LanguageButton()],
+),
+// ...
+Text(
+  context.tr('home.logged_in_as', namedArgs: {'email': email}),
+  textAlign: TextAlign.center,
+),
+// ...
+AppButton(
+  text: context.tr('home.logout'),
+  onPressed: () {
+    Navigator.pop(context);
+  },
+),</pre>
+        </div>
+        <div class="stagger" style="display:grid; grid-template-columns:1fr 1fr; gap:1.2cqw;">
+          <div class="callout callout--info"><svg class="ico"><use href="#i-swap"/></svg><div><code>actions:</code> puts widgets on the <b>end</b> of the AppBar: the right in English, the left in Arabic.</div></div>
+          <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div>Switch on Home, tap Logout: the login page is <b>already</b> in the new language.</div></div>
+        </div>
+      </div>
+      <div class="phones" style="gap:1.4cqw;">
+        <div class="ph-col"><span class="badge">English</span>
+          <div class="ph" style="--pw:13.5cqw;">
+            <div class="ph__scr"><div class="ph__island"></div>
+              <div class="appbar"><svg class="ico ico-m"><use href="#i-arrow-left"/></svg><span>Home</span><span style="flex:1;"></span><span class="m-btn m-btn--text" style="height:1.9em; font-size:.72em; padding:0 .3em;"><svg class="ico"><use href="#i-globe"/></svg><span lang="ar">العربية</span></span></div>
+              <div class="col" style="gap:.6em; padding-top:2em; text-align:center;">
+                <div style="display:grid; place-items:center;"><svg class="ico" style="width:4.2em; height:4.2em; color:#1D1B20; stroke-width:1.5;"><use href="#i-hand"/></svg></div>
+                <div class="m-title">Welcome!</div>
+                <div class="m-sub">You are logged in as ahmed@email.com</div>
+                <div class="rowx" style="justify-content:center; gap:.45em; font-size:.85em; margin-top:.4em;"><svg class="ico ico-m" style="width:1.3em; height:1.3em;"><use href="#i-mail"/></svg><span>You have 3 new messages</span></div>
+                <div class="m-btn m-btn--fill is-wide" style="margin-top:1.4em;">Logout</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ph-col"><span class="badge badge--ok">Arabic</span>
+          <div class="ph" style="--pw:13.5cqw;">
+            <div class="ph__scr" dir="rtl" lang="ar"><div class="ph__island"></div>
+              <div class="appbar"><svg class="ico ico-m"><use href="#i-arrow-right"/></svg><span>الرئيسية</span><span style="flex:1;"></span><span class="m-btn m-btn--text" style="height:1.9em; font-size:.72em; padding:0 .3em;"><svg class="ico"><use href="#i-globe"/></svg><span lang="en">English</span></span></div>
+              <div class="col" style="gap:.6em; padding-top:2em; text-align:center;">
+                <div style="display:grid; place-items:center;"><svg class="ico" style="width:4.2em; height:4.2em; color:#1D1B20; stroke-width:1.5;"><use href="#i-hand"/></svg></div>
+                <div class="m-title">أهلاً بك!</div>
+                <div class="m-sub">أنت مسجّل الدخول باسم ahmed@email.com</div>
+                <div class="rowx" style="justify-content:center; gap:.45em; font-size:.85em; margin-top:.4em;"><svg class="ico ico-m" style="width:1.3em; height:1.3em;"><use href="#i-mail"/></svg><span>عدد الرسائل الجديدة: 3</span></div>
+                <div class="m-btn m-btn--fill is-wide" style="margin-top:1.4em;">تسجيل الخروج</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Log in with an email, switch the language on Home, then go back. Then stop the app and run it again to show the language was remembered. Show <code>const int newMessages = 3;</code> and change it to 0, 1, 2 with hot reload to see the plurals.</p></aside>
+</section>
+
+<!-- 16 · RTL -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Right-to-left</p>
+      <h2 class="title">RTL: what flips by itself, and what does not</h2>
+    </header>
+    <div class="body" style="grid-template-columns: .85fr 1.15fr; gap: 2.4cqw; align-items:start;">
+      <div class="explain stagger">
+        <div class="say"><p>Arabic locale → the whole app becomes <b>right-to-left</b> automatically.</p></div>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div><b>Flips by itself:</b> <code>Row</code>, the AppBar back arrow, <code>TextField</code> icons, <code>CrossAxisAlignment.start</code></div></div>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div><b>Does not flip:</b> anything that says <code>left</code> or <code>right</code></div></div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-bulb"/></svg><div><code>start</code> = where reading starts: left in English, right in Arabic.</div></div>
+        <div class="card" style="display:grid; gap:.9cqw; padding:1.2cqw 1.4cqw;">
+          <p class="small" style="font-size:1.15cqw;"><b>The messages row in Arabic:</b> with <code>left: 8</code> the gap jumps to the outer side and the text touches the icon.</p>
+          <div class="def" style="align-items:center;"><code style="color:var(--ok); background:rgba(74,222,128,.12); min-width:7.2cqw; text-align:center;">start: 8</code><div dir="rtl" lang="ar" style="justify-self:start; display:flex; align-items:center; padding:.55cqw 1cqw; border-radius:.6cqw; background:#FEF7FF; color:#1D1B20; border:1px solid var(--brd); font:400 1.3cqw/1.3 Roboto, 'Segoe UI', var(--font-body);"><svg class="ico" style="font-size:1.5cqw; color:#49454F;"><use href="#i-mail"/></svg><span style="width:.8cqw; align-self:stretch; background:repeating-linear-gradient(45deg, rgba(22,163,74,.55) 0 .18cqw, transparent .18cqw .36cqw);"></span><span>عدد الرسائل الجديدة: 3</span></div></div>
+          <div class="def" style="align-items:center;"><code style="color:var(--bad); background:rgba(248,113,113,.12); min-width:7.2cqw; text-align:center;">left: 8</code><div dir="rtl" lang="ar" style="justify-self:start; display:flex; align-items:center; padding:.55cqw 1cqw; border-radius:.6cqw; background:#FEF7FF; color:#1D1B20; border:1px solid var(--brd); font:400 1.3cqw/1.3 Roboto, 'Segoe UI', var(--font-body);"><svg class="ico" style="font-size:1.5cqw; color:#49454F;"><use href="#i-mail"/></svg><span>عدد الرسائل الجديدة: 3</span><span style="width:.8cqw; align-self:stretch; background:repeating-linear-gradient(45deg, rgba(220,38,38,.55) 0 .18cqw, transparent .18cqw .36cqw);"></span></div></div>
+        </div>
+      </div>
+      <div class="side">
+        <div class="say" style="font-size:1.45cqw;"><p>Use <b>start / end</b> instead:</p></div>
+        <table class="tbl" style="font-size:1.25cqw;">
+          <thead><tr><th><svg class="ico" style="color:var(--bad);"><use href="#i-x"/></svg>Fixed (stays put)</th><th><svg class="ico" style="color:var(--ok);"><use href="#i-check-circle"/></svg>Directional (flips)</th></tr></thead>
+          <tbody>
+            <tr><td style="width:42%;"><code style="color:var(--bad);">EdgeInsets.only(left: 8)</code></td><td><code style="color:var(--ok);">EdgeInsetsDirectional.only(start: 8)</code></td></tr>
+            <tr><td style="width:42%;"><code style="color:var(--bad);">Alignment.centerRight</code></td><td><code style="color:var(--ok);">AlignmentDirectional.centerEnd</code></td></tr>
+            <tr><td style="width:42%;"><code style="color:var(--bad);">TextAlign.left</code></td><td><code style="color:var(--ok);">TextAlign.start</code></td></tr>
+          </tbody>
+        </table>
+        <div class="term code">
+          <div class="term__bar"><i></i><i></i><i></i><span>lib/home_page.dart</span><span class="grow"></span><span>the messages row</span></div>
+<pre class="hl" data-hl="2">Padding(
+  padding: const EdgeInsetsDirectional.only(start: 8),
+  child: Text(context.plural('home.messages', newMessages)),
+),</pre>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p><code>start</code> means “where reading starts”: left in English, right in Arabic. Live: change “Forgot password?” back to <code>Alignment.centerRight</code>, switch to Arabic, and it sticks to the wrong side. Change it to <code>AlignmentDirectional.centerEnd</code> and it follows the language. Symmetric values like <code>EdgeInsets.all(24)</code> are fine as they are.</p></aside>
+</section>
+
+<!-- 17 · Icons and font -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Right-to-left · extras</p>
+      <h2 class="title">Icons and an Arabic font (optional)</h2>
+    </header>
+    <div class="body" style="grid-template-columns: 1fr 1fr; gap: 2.4cqw; align-items:start;">
+      <div class="side">
+        <p class="small" style="font-size:1.2cqw;"><b>Flip by themselves</b> <span class="muted">(they show a direction) · English | Arabic</span></p>
+        <div class="icon-grid stagger" style="--ic:var(--sky);">
+          <div class="icon-card"><span style="display:flex; align-items:center; gap:.5cqw;"><svg class="ico" style="font-size:2.1cqw;"><use href="#i-arrow-left"/></svg><span style="width:1px; height:1.8cqw; background:var(--brd-strong);"></span><svg class="ico" style="font-size:2.1cqw; transform:scaleX(-1);"><use href="#i-arrow-left"/></svg></span><code>arrow_back</code></div>
+          <div class="icon-card"><span style="display:flex; align-items:center; gap:.5cqw;"><svg class="ico" style="font-size:2.1cqw;"><use href="#i-arrow-right"/></svg><span style="width:1px; height:1.8cqw; background:var(--brd-strong);"></span><svg class="ico" style="font-size:2.1cqw; transform:scaleX(-1);"><use href="#i-arrow-right"/></svg></span><code>arrow_forward</code></div>
+          <div class="icon-card"><span style="display:flex; align-items:center; gap:.5cqw;"><svg class="ico" style="font-size:2.1cqw;"><use href="#i-chevron-right"/></svg><span style="width:1px; height:1.8cqw; background:var(--brd-strong);"></span><svg class="ico" style="font-size:2.1cqw; transform:scaleX(-1);"><use href="#i-chevron-right"/></svg></span><code>chevron_right</code></div>
+          <div class="icon-card"><span style="display:flex; align-items:center; gap:.5cqw;"><svg class="ico" style="font-size:2.1cqw;"><use href="#i-send"/></svg><span style="width:1px; height:1.8cqw; background:var(--brd-strong);"></span><svg class="ico" style="font-size:2.1cqw; transform:scaleX(-1);"><use href="#i-send"/></svg></span><code>send</code></div>
+        </div>
+        <p class="small" style="font-size:1.2cqw;"><b>Never flip</b> <span class="muted">(same in every language)</span></p>
+        <div class="icon-grid stagger" style="--ic:var(--faint);">
+          <div class="icon-card"><svg class="ico" style="font-size:2.1cqw;"><use href="#i-play"/></svg><code>play_arrow</code></div>
+          <div class="icon-card"><svg class="ico" style="font-size:2.1cqw;"><use href="#i-check"/></svg><code>check</code></div>
+          <div class="icon-card"><svg class="ico" style="font-size:2.1cqw;"><use href="#i-call"/></svg><code>phone</code></div>
+          <div class="icon-card"><svg class="ico" style="font-size:2.1cqw;"><use href="#i-clock"/></svg><code>access_time</code></div>
+        </div>
+        <div class="term code code--sm">
+          <div class="term__bar"><i></i><i></i><i></i><span>Flip one yourself when you need to</span></div>
+<pre class="hl">Transform.flip(flipX: isArabic, child: const Icon(Icons.logout))</pre>
+        </div>
+      </div>
+      <div class="side">
+        <p class="small" style="font-size:1.2cqw;"><b>Arabic font</b> <span class="badge" style="margin-left:.4cqw;">optional</span></p>
+        <p class="small" style="font-size:1.2cqw;">Download <b>Cairo</b> from fonts.google.com, copy <code>Cairo-Regular.ttf</code> and <code>Cairo-Bold.ttf</code> (in the <code>static</code> folder of the zip) to <code>assets/fonts/</code></p>
+        <div class="term code">
+          <div class="term__bar"><i></i><i></i><i></i><span>pubspec.yaml</span><span class="grow"></span><span>under flutter:, next to assets:</span></div>
+<pre class="hl" data-lang="yaml">  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo-Regular.ttf
+        - asset: assets/fonts/Cairo-Bold.ttf
+          weight: 700</pre>
+        </div>
+        <div class="term code code--sm">
+          <div class="term__bar"><i></i><i></i><i></i><span>lib/main.dart</span><span class="grow"></span><span>MyApp · MaterialApp</span></div>
+<pre class="hl">theme: ThemeData(fontFamily: isArabic ? 'Cairo' : null),</pre>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Material icons that show movement are already marked to mirror; media and clock icons are not, on purpose. <code>fonts:</code> goes under <code>flutter:</code>, next to <code>assets:</code>. In <code>MyApp</code>, <code>isArabic</code> is <code>context.locale.languageCode == 'ar'</code>; <code>null</code> means “the normal font” for English. If you have Lecture 10 themes, add <code>fontFamily</code> to your own <code>ThemeData</code>. This slide is optional if time is short.</p></aside>
+</section>
+
+<!-- 18 · Meme break -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Meme break</p>
+      <h2 class="title">Every word is translated. What went wrong?</h2>
+    </header>
+    <div class="body meme-slide">
+      <figure class="meme meme--gru" style="--mw:52cqw;"><img src="https://i.imgflip.com/26jxvz.jpg" alt="Gru's plan meme about left padding in Arabic">
+        <span class="cap cap--ink c1"><span>Add Arabic to the app</span></span>
+        <span class="cap cap--ink c2"><span>Translate every word in ar.json</span></span>
+        <span class="cap cap--ink c3"><span>Use <code>EdgeInsets.only(left: 16)</code> everywhere</span></span>
+        <span class="cap cap--ink c4"><span>Use <code>EdgeInsets.only(left: 16)</code> everywhere</span></span></figure>
+      <div class="meme-side stagger">
+        <div class="say"><p>Gru translated every word, so why does he look worried in panel 4? Think about where “left” is on an Arabic screen.</p></div>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div>Use <code>EdgeInsetsDirectional.only(start: 16)</code> (and <code>AlignmentDirectional</code> / <code>TextAlign.start</code>): it follows the language.</div></div>
+        <p class="meme-link">Make your own: <a href="https://imgflip.com/memegenerator/131940431" target="_blank" rel="noopener">imgflip meme generator</a> · <a href="https://knowyourmeme.com/memes/grus-plan" target="_blank" rel="noopener">about this meme</a></p>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Ask why panel 4 is a problem: in Arabic the screen is mirrored, so “left” padding ends up on the wrong side. The fix is <code>EdgeInsetsDirectional.only(start: 16)</code> (and <code>AlignmentDirectional</code> / <code>TextAlign.start</code>).</p></aside>
+</section>
+
+<!-- 19 · Summary + Questions -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Wrap-up</p>
+      <h2 class="title">Summary + Questions</h2>
+    </header>
+    <div class="body wrap">
+      <article class="card card--hl" style="display:flex; flex-direction:column;">
+        <h3>Today you learned</h3>
+        <ul class="checklist stagger" style="gap:1.5cqw; margin-top:1.5cqw;">
+          <li><span>Localization = words + direction; locale = <code>en</code>, <code>ar</code>, <code>ar_LY</code></span></li>
+          <li><span>Setup: JSON files → <code>pubspec.yaml</code> assets → <code>Info.plist</code> → <code>main()</code> → 3 lines in <code>MaterialApp</code></span></li>
+          <li><span><code>context.tr('key')</code>, <code>namedArgs: {...}</code>, <code>context.plural('key', n)</code></span></li>
+          <li><span><code>context.setLocale(...)</code> switches and remembers</span></li>
+          <li><span>Arabic: use start / end (<code>EdgeInsetsDirectional</code>, <code>AlignmentDirectional</code>, <code>TextAlign.start</code>)</span></li>
+        </ul>
+        <div class="callout callout--warn" style="margin-top:auto;"><svg class="ico"><use href="#i-refresh"/></svg><div>Edited a JSON file? <b>Hot restart</b>, not hot reload.</div></div>
+      </article>
+      <div class="side" style="justify-items:center; align-content:center;">
+        <div class="phones" style="gap:1.4cqw;">
+          <div class="ph" style="--pw:11.5cqw;">
+            <div class="ph__scr"><div class="ph__island"></div>
+              <div class="col" style="gap:.65em; padding-top:2.3em;">
+                <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;"><svg class="ico"><use href="#i-globe"/></svg><span lang="ar">العربية</span></div>
+                <div style="display:grid; place-items:center;"><svg class="logo" style="width:2.6em; height:3.3em;"><use href="#flutter-logo"/></svg></div>
+                <div class="m-title" style="text-align:center;">Welcome back</div>
+                <div class="m-sub" style="text-align:center;">Log in to continue</div>
+                <div class="m-field" style="margin-top:.4em;"><svg class="ico"><use href="#i-mail"/></svg>Email</div>
+                <div class="m-field"><svg class="ico"><use href="#i-lock"/></svg>Password</div>
+                <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;">Forgot password?</div>
+                <div class="m-btn m-btn--fill is-wide">Login</div>
+                <div class="rowx" style="justify-content:center; font-size:.82em; gap:.25em;"><span>Don't have an account?</span><b style="color:#6750A4;">Sign up</b></div>
+              </div>
+            </div>
+          </div>
+          <div class="ph" style="--pw:11.5cqw;">
+            <div class="ph__scr" dir="rtl" lang="ar"><div class="ph__island"></div>
+              <div class="col" style="gap:.65em; padding-top:2.3em;">
+                <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;"><svg class="ico"><use href="#i-globe"/></svg><span lang="en">English</span></div>
+                <div style="display:grid; place-items:center;"><svg class="logo" style="width:2.6em; height:3.3em;"><use href="#flutter-logo"/></svg></div>
+                <div class="m-title" style="text-align:center;">مرحباً بعودتك</div>
+                <div class="m-sub" style="text-align:center;">سجّل الدخول للمتابعة</div>
+                <div class="m-field" style="margin-top:.4em;"><svg class="ico"><use href="#i-mail"/></svg>البريد الإلكتروني</div>
+                <div class="m-field"><svg class="ico"><use href="#i-lock"/></svg>كلمة المرور</div>
+                <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;">نسيت كلمة المرور؟</div>
+                <div class="m-btn m-btn--fill is-wide">تسجيل الدخول</div>
+                <div class="rowx" style="justify-content:center; font-size:.82em; gap:.25em;"><span>ليس لديك حساب؟</span><b style="color:#6750A4;">أنشئ حساباً</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="qa__big grad-text" style="font-size:4.2cqw;">Questions?</div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Recap with the two phone mockups from slide 1. Remind them: hot reload does not reload JSON files because easy_localization reads them once when the app starts.</p></aside>
+</section>
+
+<!-- 20 · Homework -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Practice at home</p>
+      <h2 class="title">Homework</h2>
+    </header>
+    <div class="body stagger" style="grid-template-columns: repeat(6, 1fr); align-content:start; gap: 1.4cqw;">
+      <article class="card" style="grid-column: span 2; display:grid; gap:.8cqw; align-content:start;">
+        <div style="display:flex; align-items:center; gap:.8cqw;"><span class="n">1</span><span class="badge badge--ok">Easy</span></div>
+        <h3 style="font-size:1.4cqw;">Translate the Sign up page from Lecture 8 (new <code>signup</code> group in both files)</h3>
+        <p class="small"><b>Done when</b> the page is fully English and fully Arabic, with no key names showing.</p>
+      </article>
+      <article class="card" style="grid-column: span 2; display:grid; gap:.8cqw; align-content:start;">
+        <div style="display:flex; align-items:center; gap:.8cqw;"><span class="n">2</span><span class="badge badge--ok">Easy</span></div>
+        <h3 style="font-size:1.4cqw;">Add a third button “Phone language” that calls <code>context.resetLocale()</code></h3>
+        <p class="small"><b>Done when</b> tapping it makes the app follow the phone's language again.</p>
+      </article>
+      <article class="card" style="grid-column: span 2; display:grid; gap:.8cqw; align-content:start;">
+        <div style="display:flex; align-items:center; gap:.8cqw;"><span class="n">3</span><span class="badge badge--warm">Medium</span></div>
+        <h3 style="font-size:1.4cqw;">Find every <code>left</code> / <code>right</code> in your app and change it to <code>start</code> / <code>end</code></h3>
+        <p class="small"><b>Done when</b> every page in Arabic looks like a mirror of the English one.</p>
+      </article>
+      <article class="card" style="grid-column: span 3; display:grid; gap:.8cqw; align-content:start;">
+        <div style="display:flex; align-items:center; gap:.8cqw;"><span class="n">4</span><span class="badge badge--warm">Medium</span></div>
+        <h3 style="font-size:1.4cqw;">Add a cart counter with a plural: “Your cart is empty” / “1&nbsp;item” / “{}&nbsp;items”</h3>
+        <p class="small"><b>Done when</b> 0, 1, 2, 5 and 12 all read correctly in both languages.</p>
+      </article>
+      <article class="card" style="grid-column: span 3; display:grid; gap:.8cqw; align-content:start;">
+        <div style="display:flex; align-items:center; gap:.8cqw;"><span class="n">5</span><span class="badge">Bonus</span></div>
+        <h3 style="font-size:1.4cqw;">Bonus: the Cairo font for Arabic only</h3>
+        <p class="small"><b>Done when</b> Arabic texts use Cairo and English texts keep the normal font.</p>
+      </article>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 11</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Details and “done when” for each are in the Homework section of the lecture plan.</p><p>1: add a <code>signup</code> group (Name, Email, Password, “Create account”) to both JSON files. 2: test by changing the emulator language to Arabic and back. 3: search for <code>left</code>, <code>right</code>, <code>centerLeft</code>, <code>centerRight</code>, <code>TextAlign.left</code> and <code>TextAlign.right</code>. 4: a small stateful page with “+” and “−” buttons; key <code>cart.items</code> with <code>zero</code>, <code>one</code>, <code>other</code>, and Arabic forms including <code>two</code>. 5: see the optional font slide.</p></aside>
+</section>
+
+</main>
+
+<div class="notes-panel" hidden>
+  <h4 class="np-title">Speaker notes</h4>
+  <div class="np-body"></div>
+</div>
+<div class="hint" aria-hidden="true"><kbd>←</kbd> <kbd>→</kbd> navigate · <kbd>F</kbd> fullscreen · <kbd>N</kbd> notes · <kbd>T</kbd> theme</div>
+
+<script src="js/deck.js"></script>
+</body>
+</html>
